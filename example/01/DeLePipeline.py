@@ -13,8 +13,10 @@
 # 5 模型保存
 import numpy as np
 import json
-
-
+import os
+import sys
+sys.path.insert(os.path.abspath(os.path.dirname(os.path.dirname((os.getcwd())))))
+print(sys.path)
 # 1.5 封装成load data函数
 
 def load_data():
@@ -101,7 +103,6 @@ class Network(object):
         # print("z",z)
         return z
     
-
     # 2.3 训练配置 模型设计完成后，需要通过训练配置寻找模型的最优值，即通过损失函数来衡量模型的好坏。训练配置也是深度学习模型关键要素之一。
         # 如果要衡量预测放假和真实房价之间的差距，是否将每一个样本的差距的绝对值加和即可？差距绝对值加和是更加直观和朴素的思路，为何要平方加和？ 损失函数的设计不仅要考虑准确衡量问题的“合理性”，通常还要考虑“易于优化求解”。
     # 在回归问题中，均方误差是一种比较常见的形式，分类问题中通常会采用交叉熵作为损失函数，在后续的章节中会更详细的介绍。对一个样本计算损失函数值的实现如下。
@@ -141,6 +142,12 @@ class Network(object):
             if (i+1) % 10 == 0:
                 print('iter {}, loss {}'.format(i, L))
         return losses
+
+    def predict(self,x,model):
+        self.w,self.b=model
+        z = self.forward(x)
+        return z
+
 # 使用定义的Network类，可以方便的计算预测值和损失函数。需要注意的是，类中的变量x, w，b, z, error等均是向量。以变量xxx为例，共有两个维度，一个代表特征数量（值为13），一个代表样本数量，代码如下所示。
 # 2.3 训练配置
 net = Network(13)
